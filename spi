@@ -75,13 +75,14 @@ rhel7 () {
 	else
 		yum install squid httpd-tools -y
 	fi
-	read -e -p "Your desired username: " usrn
-	if [ -f /usr/local/nginx/conf/htpasswd.sh ]; then
-		read -e -p "Your desired password: " usrp		
-		/usr/local/nginx/conf/htpasswd.sh create /etc/squid/passwd $usrn $usrp
-	else
-		htpasswd -c /etc/squid/passwd $usrn
-	fi
+	/usr/local/nginx/conf/htpasswd.sh create /etc/squid/passwd "a" "a"
+	#read -e -p "Your desired username: " usrn
+	#if [ -f /usr/local/nginx/conf/htpasswd.sh ]; then
+	#	read -e -p "Your desired password: " usrp
+	#	/usr/local/nginx/conf/htpasswd.sh create /etc/squid/passwd $usrn $usrp
+	#else
+	#	htpasswd -c /etc/squid/passwd $usrn
+	#fi
 	wget -O /etc/squid/squid.conf https://raw.githubusercontent.com/hidden-refuge/squid-proxy-installer/master/spi-rhel7.conf --no-check-certificate
 	systemctl restart squid.service && systemctl enable squid.service
 	csfsetup
